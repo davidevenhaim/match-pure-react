@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useApolloClient } from '@apollo/client';
-import { SIGN_UP } from '../gql/query';
+import { SIGN_UP, GET_ATHLETES } from '../gql/query';
 
 import Spinner from '../Layout/Spinner/Spinner';
 import UserForm from '../components/UserForm';
@@ -18,6 +18,7 @@ const signUp = props => {
 
   const client = useApolloClient();
   const [signUp, { loading, error }] = useMutation(SIGN_UP, {
+    refetchQueries: [{ query: GET_ATHLETES }],
     onCompleted: data => {
       console.log("Data - Signup");
       // storing the JWT in the local storage allowing user sessions.

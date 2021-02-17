@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useMutation } from '@apollo/client';
-import { NEW_EVENT } from '../gql/query';
+import { NEW_EVENT, GET_EVENTS } from '../gql/query';
 
 // styling imports
 import Spinner from '../Layout/Spinner/Spinner';
@@ -14,8 +14,8 @@ const newEvent = props => {
   });
 
   const [newEvent, { loading, error }] = useMutation(NEW_EVENT, {
+    refetchQueries: [{ query: GET_EVENTS }],
     onCompleted: data => {
-      console.log(data.newEvent);
       props.history.push(`/event/${data.newEvent.event.id}`);
     }
   });

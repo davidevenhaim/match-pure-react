@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import image from '../img/user-form/lock-closed.svg'
+
 const Nav = styled.nav`
   padding: 1em;
   background: #f5f4f0;
@@ -69,6 +71,14 @@ const Navigation = () => {
               🌟
             </span>
             Connections
+          </Link>
+        </li>
+        <li>
+          <Link to="/newevent">
+            <span aria-hidden="true" role="img">
+              <img src={image} alt="lock" height="20px" />
+            </span>
+            New Event
           </Link>
         </li>
       </NavList>
