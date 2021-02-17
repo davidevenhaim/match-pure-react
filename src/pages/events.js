@@ -1,29 +1,11 @@
 import React, { useEffect } from 'react';
-import { useQuery, gql } from '@apollo/client';
-
+import { useQuery } from '@apollo/client';
+import { GET_EVENTS } from '../gql/query';
 
 import EventFeed from '../components/EventFeed';
 
 // styling imports
 import Spinner from '../Layout/Spinner/Spinner';
-
-const GET_EVENTS = gql`
-  query Events($cursor: String) {
-    Events(cursor: $cursor) {
-      cursor
-      hasNextPage
-      events {
-        id
-        eventDate
-        eventName
-        private
-        maxPlayersAmount
-        curPlayersAmount
-        sport
-      }
-    }
-  }
-`;
 
 const Events = () => {
   useEffect(() => {

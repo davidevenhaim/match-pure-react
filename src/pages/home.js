@@ -1,29 +1,11 @@
 import React from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { GET_ATHLETES } from '../gql/query';
 
 import AthleteFeed from '../components/AthleteFeed';
 
 // layout imports
 import Spinner from '../Layout/Spinner/Spinner';
-
-const GET_ATHLETES = gql`
-  query Athletes($cursor: String) {
-    Athletes(cursor: $cursor) {
-      cursor
-      hasNextPage
-      athletes {
-        id
-        username
-        favoriteSport
-        avatar
-        createdAt
-        connection {
-          username
-        }
-      }
-    }
-  }
-`;
 
 const Home = () => {
   const { data, loading, error, fetchMore } = useQuery(GET_ATHLETES);

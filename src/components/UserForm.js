@@ -37,6 +37,7 @@ const UserForm = props => {
       <Form
         onSubmit={event => {
           event.preventDefault();
+          console.log(values)
           props.action({
             variables: {
               ...values

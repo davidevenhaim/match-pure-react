@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import { NEW_EVENT } from '../gql/query';
 
 // styling imports
 import Spinner from '../Layout/Spinner/Spinner';
@@ -7,41 +8,23 @@ import Spinner from '../Layout/Spinner/Spinner';
 // components imports
 import NewEventForm from '../components/NewEventForm';
 
-const NEW_EVENT = gql`
-  mutation newEvent( $sport: favoriteSportSelection! $maxPlayersAmount: Int! $eventDate: Date!) {
-    newEvent( sport: $sport eventDate: $eventDate maxPlayersAmount: $maxPlayersAmount) {
-      alert
-      succeed
-      event {
-        id
-        eventDate
-        eventName
-        maxPlayersAmount
-        sport
-        captain {
-          username
-        }
-      }
-    }
-  }
-`;
-
-const newEvent = () => {
+const newEvent = props => {
   useEffect(() => {
     document.title = 'New Event Page';
   });
 
-  const [data, { loading, error }] = useMutation(NEW_EVENT, {
-      onCompleted: data => {
-          props.history.push(`/event/${data.event.id}`)
-      }
-    });
+  const [newEvent, { loading, error }] = useMutation(NEW_EVENT, {
+    onCompleted: data => {
+      console.log(data.newEvent);
+      props.history.push(`/event/${data.newEvent.event.id}`);
+    }
+  });
 
   return (
     <React.Fragment>
-        { loading && <Spinner />}
-        { error && <p>Error</p> }
-      <NewEventForm action={data} />
+      {loading && <Spinner />}
+      {error && <p>Error</p>}
+      <NewEventForm action={newEvent} />
     </React.Fragment>
   );
 };

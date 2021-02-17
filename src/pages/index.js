@@ -1,7 +1,8 @@
 // import React and our routing dependencies
 import React from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { IS_LOGGED_IN } from '../gql/query';
 
 // import our shared layout component
 import Layout from '../components/Layout';
@@ -18,11 +19,6 @@ import Events from './events';
 import NewEvent from './newEvent';
 import EventPage from './eventPage';
 
-const IS_LOGGED_IN = gql`
-  {
-    isLoggedIn @client
-  }
-`;
 
 const Pages = props => {
   return (
@@ -32,7 +28,7 @@ const Pages = props => {
         <Route exact path="/" component={Home} />
         <Route path="/signup" component={SignUp} />
         <Route path="/signin" component={SignIn} />
-        <PrivateRoute path="/events" component={Events} />
+        <Route path="/events" component={Events} />
         <PrivateRoute path="/favorites" component={Favorites} />
         <PrivateRoute path="/newevent" component={NewEvent} />
         <Route path="/athlete/:id" component={AthletePage} exact />

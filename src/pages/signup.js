@@ -1,26 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useMutation, useApolloClient, gql } from '@apollo/client';
+import { useMutation, useApolloClient } from '@apollo/client';
+import { SIGN_UP } from '../gql/query';
 
 import Spinner from '../Layout/Spinner/Spinner';
 import UserForm from '../components/UserForm';
 
 // import SportImages from '../Layout/SportsImages/SportImages';
 
-const SIGNUP_USER = gql`
-  mutation signUp(
-    $email: String!
-    $username: String!
-    $password: String!
-    $favoriteSport: [favoriteSportSelection!]!
-  ) {
-    signUp(
-      email: $email
-      username: $username
-      password: $password
-      favoriteSport: $favoriteSport
-    )
-  }
-`;
+
+
 // "favoriteSport" type enum type representing athlete's favorite sport.
 
 const signUp = props => {
@@ -29,8 +17,9 @@ const signUp = props => {
   });
 
   const client = useApolloClient();
-  const [signUp, { loading, error }] = useMutation(SIGNUP_USER, {
+  const [signUp, { loading, error }] = useMutation(SIGN_UP, {
     onCompleted: data => {
+      console.log("Data - Signup");
       // storing the JWT in the local storage allowing user sessions.
       localStorage.setItem('token', data.signUp);
       // redirecting the user to the homepage.

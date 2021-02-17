@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
-import { useApolloClient, useMutation, gql } from '@apollo/client';
+import { useApolloClient, useMutation } from '@apollo/client';
+import { SIGN_IN } from '../gql/query';
 
 import UserForm from '../components/UserForm';
 
 // importing styles
 import Spinner from '../Layout/Spinner/Spinner';
 
-const SIGN_IN = gql`
-  mutation signIn($email: String, $password: String!) {
-    signIn(email: $email, password: $password)
-  }
-`;
 
 const SignIn = props => {
   useEffect(() => {

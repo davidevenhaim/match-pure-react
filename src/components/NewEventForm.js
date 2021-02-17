@@ -29,14 +29,13 @@ const TextArea = styled.textarea`
 `;
 
 const NewEventForm = props => {
-  const [values, setValues] = useState({ content: props.content || '' });
+  const [values, setValues] = useState();
 
   const onChange = e => {
     setValues({
       ...values,
-      [e.target.name]: e.target.value
+      [e.target.name]: +e.target.value ? +e.target.value : e.target.value
     });
-    console.log(values)
   };
 
   let userChoiceSports = [];
@@ -54,7 +53,6 @@ const NewEventForm = props => {
       <Form
         onSubmit={e => {
           e.preventDefault();
-          console.log(values)
           props.action({
             variables: { ...values }
           });
@@ -76,7 +74,6 @@ const NewEventForm = props => {
           type="date"
           id="eventDate"
           name="eventDate"
-          value={values.eventDate || '2021-02-16'}
           min="2021-02-16"
           max="2021-12-31"
           onChange={onChange}
@@ -90,8 +87,8 @@ const NewEventForm = props => {
           max="30"
           onChange={onChange}
         ></input>
-      </Form>
       <Button type="submit">Submit</Button>
+      </Form>
     </Wrapper>
   );
 };
