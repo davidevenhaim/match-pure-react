@@ -1,6 +1,8 @@
 import React from 'react';
-import Event from './Event';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+import Event from './Event';
 
 const EventWrapper = styled.div`
   max-width: 50%;
@@ -13,17 +15,20 @@ const EventWrapper = styled.div`
   border-right: 3px solid #f5f4f0
 `; // pinterest look a like grid.
 
-const EventFeed = ({ events }) => {
-  return (
-    <div>
-      {events.map(event => (
-          <EventWrapper key={event.id}>
-            <Event event={event} />
-          </EventWrapper>
-        )
-      )}
-    </div>
-  );
-};
+const EventFeed = ({ events }) => (
+  <div>
+    {events.map(event => (
+      <Link
+        key={event.id}
+        to={`/event/${event.id}`}
+        style={{ textDecoration: 'none' }}
+      >
+        <EventWrapper>
+          <Event event={event} />
+        </EventWrapper>
+      </Link>
+    ))}
+  </div>
+);
 
 export default EventFeed;

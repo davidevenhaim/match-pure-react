@@ -1,10 +1,10 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
-// import the format utility to help working with dates.
-import { format } from 'date-fns';
 
-import SportImages from '../Layout/SportsImages/SportImages';
+// styles import
+import SportImage from '../../UI/SportImage';
+
+import AthleteConnection from '../AthleteConnection';
 
 const StyledNote = styled.article`
   max-width: 800px;
@@ -26,7 +26,8 @@ const UserActions = styled.div`
   margin-left: auto;
 `;
 
-const athlete = ({ athlete }) => {
+const athlete = ({ athlete, isLoggedIn }) => {
+
   return (
     <StyledNote>
       <MetaData>
@@ -40,23 +41,17 @@ const athlete = ({ athlete }) => {
         <MetaInfo>
           {athlete.username}
           <br />
-          {format(athlete.createdAt, 'MMM Do YYYY')}
-          <br />
-          {athlete.favoriteSport.map((sport, index) => (
-            <img
-              key={index}
-              src={SportImages[sport]}
-              alt={sport}
-              height="30px"
-            />
-          ))}
+          <SportImage sports={athlete.favoriteSport} height="30px" />
         </MetaInfo>
         <UserActions>
-          <em>Connect</em>
-          {athlete.connection}
+          {isLoggedIn ? (
+            <AthleteConnection id={athlete.id} />
+          ):
+            <p>Log in to Connect!</p>
+          }
         </UserActions>
       </MetaData>
-      <ReactMarkdown source={'Content'} />
+      {/* <ReactMarkdown source={'Content'} /> */}
     </StyledNote>
   );
 };

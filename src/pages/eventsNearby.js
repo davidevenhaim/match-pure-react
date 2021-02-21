@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_EVENTS } from '../gql/query';
 
-import EventFeed from '../components/EventFeed';
+import EventFeed from '../components/Event/EventFeed/EventFeed';
 
-// styling imports
+// import styles
 import Spinner from '../Layout/Spinner/Spinner';
 
 const Events = () => {
@@ -12,16 +12,23 @@ const Events = () => {
     // update the document title
     document.title = 'My Notes — Notedly';
   });
-
+  
   const { data, loading, error, fetchmore } = useQuery(GET_EVENTS);
 
   if(loading) return ( <Spinner /> );
-  // avoid reading from undefined.
-  if(error) return  ( <Spinner /> );
+
+  if(error){
+    return  (
+      <div>
+        <Spinner />
+        <p>{error.message}</p>
+      </div>
+    )
+  }
 
   return (
     <div>
-      <EventFeed events={data.Events.events} />
+      <EventFeed events={data.Events.events}/>
     </div>
   );
 };

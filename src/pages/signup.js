@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useMutation, useApolloClient } from '@apollo/client';
-import { SIGN_UP, GET_ATHLETES } from '../gql/query';
 
-import Spinner from '../Layout/Spinner/Spinner';
+import { GET_ATHLETES } from '../gql/query';
+import { SIGN_UP } from '../gql/mutation';
 import UserForm from '../components/UserForm';
 
-// import SportImages from '../Layout/SportsImages/SportImages';
-
+// import styles
+import Spinner from '../Layout/Spinner/Spinner';
 
 
 // "favoriteSport" type enum type representing athlete's favorite sport.
@@ -20,7 +20,6 @@ const signUp = props => {
   const [signUp, { loading, error }] = useMutation(SIGN_UP, {
     refetchQueries: [{ query: GET_ATHLETES }],
     onCompleted: data => {
-      console.log("Data - Signup");
       // storing the JWT in the local storage allowing user sessions.
       localStorage.setItem('token', data.signUp);
       // redirecting the user to the homepage.

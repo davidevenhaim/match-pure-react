@@ -2,7 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import image from '../img/user-form/lock-closed.svg'
+// styles import
+import { buttonPlus, searchIcon } from '../../Layout/icons/navigationBar';
+// import only PROFILE ICON!
+import AthletesIcons from '../../Layout/icons/athleteIcons'
 
 const Nav = styled.nav`
   padding: 1em;
@@ -50,35 +53,24 @@ const Navigation = () => {
     <Nav>
       <NavList>
         <li>
+          <Link to="/myprofile">
+            <span aria-hidden="true" role="img">
+            <img src={AthletesIcons.profile} alt="plus" height="30px" />
+            </span>
+          </Link>
+        </li>
+        <li>
           <Link to="/">
             <span aria-hidden="true" role="img">
-              🏠
+            <img src={searchIcon} alt="plus" height="30px" />
             </span>
-            Athletes Nearby
-          </Link>
-        </li>
-        <li>
-          <Link to="/events">
-            <span aria-hidden="true" role="img">
-              📓
-            </span>
-            Events Nearby
-          </Link>
-        </li>
-        <li>
-          <Link to="/favorites">
-            <span aria-hidden="true" role="img">
-              🌟
-            </span>
-            Connections
           </Link>
         </li>
         <li>
           <Link to="/newevent">
             <span aria-hidden="true" role="img">
-              <img src={image} alt="lock" height="20px" />
+              <img src={buttonPlus} alt="plus" height="30px" />
             </span>
-            New Event
           </Link>
         </li>
       </NavList>

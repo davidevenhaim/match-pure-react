@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import Button from '../components/Button';
+import Button from './UI/Buttons/Button';
 
 const Wrapper = styled.div`
   border: 1px solid #f5f4f0;
@@ -28,7 +28,11 @@ const UserForm = props => {
   const onChange = event => {
     setValues({
       ...values,
-      [event.target.name]: event.target.value
+      [event.target.name]:
+        event.target.name === 'favoriteSport'
+          ? event.target.value.split(', ') 
+          // (', ') != (',') //
+          : event.target.value
     });
   };
   return (
@@ -37,7 +41,6 @@ const UserForm = props => {
       <Form
         onSubmit={event => {
           event.preventDefault();
-          console.log(values)
           props.action({
             variables: {
               ...values
@@ -45,6 +48,7 @@ const UserForm = props => {
           });
         }}
       >
+        {/* Render different UI for users when signin up! */}
         {props.formType === 'signup' && (
           <React.Fragment>
             <label htmlFor="username">Username:</label>
