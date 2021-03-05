@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Button from './UI/Buttons/Button';
+import SportSelection from './UI/SportSelection';
 
 const Wrapper = styled.div`
   border: 1px solid #f5f4f0;
@@ -13,15 +14,12 @@ const Wrapper = styled.div`
 const Form = styled.form`
   label,
   input {
-    display: block;
     line-height: 2em;
   }
 
-  input {
-    width: 100%;
-    margin-bottom: 1em;
-  }
+
 `;
+
 
 const UserForm = props => {
   const [values, setValues] = useState();
@@ -30,9 +28,9 @@ const UserForm = props => {
       ...values,
       [event.target.name]:
         event.target.name === 'favoriteSport'
-          ? event.target.value.split(', ') 
-          // (', ') != (',') //
-          : event.target.value
+          ? event.target.value.split(', ')
+          : // (', ') != (',') //
+            event.target.value
     });
   };
   return (
@@ -48,30 +46,21 @@ const UserForm = props => {
           });
         }}
       >
-        {/* Render different UI for users when signin up! */}
         {props.formType === 'signup' && (
           <React.Fragment>
-            <label htmlFor="username">Username:</label>
+            <label htmlFor="username"/>
             <input
               required
               type="text"
-              id="username"
               name="username"
               placeholder="Username"
               onChange={onChange}
+              style={{width:"100%", marginBottom: "2em", left:  "50%"}}
             />
-            <label htmlFor="favoriteSport">FavoriteSport:</label>
-            <input
-              required
-              type="favoriteSport"
-              id="favoriteSport"
-              name="favoriteSport"
-              placeholder="favoriteSport"
-              onChange={onChange}
-            />
+            <SportSelection onChange={onChange}/>
           </React.Fragment>
         )}
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email" />
         <input
           required
           type="email"
@@ -79,8 +68,9 @@ const UserForm = props => {
           name="email"
           placeholder="Email"
           onChange={onChange}
+          style={{width:"100%", marginBottom: "2em"}}
         />
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password" />
         <input
           required
           type="password"
@@ -88,6 +78,7 @@ const UserForm = props => {
           name="password"
           placeholder="Password"
           onChange={onChange}
+          style={{width:"100%", marginBottom: "2em"}}
         />
         <Button type="submit">Submit</Button>
       </Form>

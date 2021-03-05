@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
-import AthleteInFeed from './AthleteInFeed';
+import Athlete from './Athlete';
 import { IS_LOGGED_IN, GET_ME } from '../../../gql/query';
 
 import styled from 'styled-components';
@@ -27,17 +27,21 @@ const athleteFeed = ({ athletes }) => {
 
   if (logLoading || meLoading) return <Spinner />;
 
-  // if meError is TRUE use may not be logged in - still needs to show Athlete's feed.
+  // if meError is TRUE use is not logged in - still needs to show Athlete's feed.
   if (logError) return <p>Error!</p>;
 
   return (
     <div>
-      {logData.isLoggedIn ? (
+      {meData ? (
         <Link
           to={`/athlete/${meData.Me.id}`}
           style={{ textDecoration: 'none' }}
         >
-          <AthleteInFeed athlete={meData.Me} isLoggedIn={logData.isLoggedIn} />
+          <Athlete
+            feedAthlete={meData.Me}
+            isLoggedIn={logData.isLoggedIn}
+            itsMe={true}
+          />
         </Link>
       ) : null}
       {athletes.map(athlete => {
@@ -53,9 +57,10 @@ const athleteFeed = ({ athletes }) => {
             style={{ textDecoration: 'none' }}
           >
             <AthleteWrapper>
-              <AthleteInFeed
-                athlete={athlete}
+              <Athlete
+                feedAthlete={athlete}
                 isLoggedIn={logData.isLoggedIn}
+                curAthlete={meData.Me}
               />
             </AthleteWrapper>
           </Link>

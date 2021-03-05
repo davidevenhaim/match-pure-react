@@ -3,7 +3,6 @@ import { useQuery } from '@apollo/client';
 
 import { GET_MY_CONNECTIONS } from '../../gql/query';
 
-// import styles
 import Spinner from '../../Layout/Spinner/Spinner';
 
 const myConnections = () => {

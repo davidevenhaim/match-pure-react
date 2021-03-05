@@ -1,43 +1,49 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
+import { useApolloClient, useQuery } from '@apollo/client';
 
 import { GET_ME, GET_ATHLETE } from '../gql/query';
 import AthleteHeader from '../components/Athlete/AthleteProfile/AthleteHeader';
 import UpcomingEvents from '../components/Athlete/AthleteProfile/UpcomingEvents';
 
-// styles import
 import Spinner from '../Layout/Spinner/Spinner';
 
 const profilePage = props => {
   const id = props.match.params.id;
-  let isOwner = null;
+  let isOwner = false;
+  let isConnected = false;
+
   const {
-    loading: userLoading,
-    error: userError,
-    data: userData
+    loading: athleteLoading,
+    error: athleteError,
+    data: athleteData
   } = useQuery(GET_ATHLETE, { variables: { id } });
 
   const { loading: meLoading, data: meData, error: meError } = useQuery(GET_ME);
 
-  if (userLoading || meLoading) return <Spinner />;
+  if (athleteLoading || meLoading) return <Spinner />;
 
-  if (userError) return <p>ERROR!</p>;
-  
-  if(!meError) {
-    isOwner = ( id === meData.Me.id );
+  if (athleteError) return <p>ERROR!</p>;
+
+  if (!meError) {
+    isOwner = id === meData.Me.id;
+    for (let connected of meData.Me.connection) {
+      if (connected.id === id) isConnected = true;
+    }
   }
-  const user = userData.Athlete;
-  
+
+  const athlete = athleteData.Athlete;
+
   return (
     <React.Fragment>
       <AthleteHeader
         isOwner={isOwner}
-        avatar={user.avatar}
-        sports={user.favoriteSport}
-        username={user.username}
+        avatar={athlete.avatar}
+        sports={athlete.favoriteSport}
+        username={athlete.username}
+        isConnected={isConnected}
       />
       <UpcomingEvents
-        curEvents={user.upcomingEvents}
+        athlete={athlete}
         isOwner={isOwner}
         myEvents={meError ? null : meData.Me.upcomingEvents}
       />

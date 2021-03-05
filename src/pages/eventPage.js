@@ -1,28 +1,33 @@
 import React, { useEffect } from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useApolloClient } from '@apollo/client';
 
 import Event from '../components/Event/EventFeed/Event';
-import { GET_EVENT } from '../gql/query';
+import ToggleEventJoin from '../components/Event/EventActions/ToggleEventJoin';
+import { GET_EVENT, GET_ME } from '../gql/query';
 
-// import styles
 import Spinner from '../Layout/Spinner/Spinner';
 
 const eventPage = props => {
+  const id = props.match.params.id;
 
-    const id = props.match.params.id;
+  const {
+    loading: eventLoading,
+    error: eventError,
+    data: eventData
+  } = useQuery(GET_EVENT, { variables: { id } });
 
-    const { loading, error, data } = useQuery(GET_EVENT, { variables: { id } });
+  const { loading: meLoading, data: meData } = useQuery(GET_ME);
 
-    // const data = null
-    if(loading) return ( <Spinner /> );
-    // avoid reading from undefined.
-    if(error) return  ( <p>ERROR! {error.message}</p> );
-    
-    return (
-        <div>
-            <Event event={data.Event} />
-        </div>
-    );
+  if (eventLoading || meLoading ) return <Spinner />;
+
+  if (eventError) return <p>ERROR! {error.message}</p>;
+
+  return (
+    <div>
+      <Event event={eventData.Event} />
+      <ToggleEventJoin eventId={id} athlete={meData ? meData.Me : null} />
+    </div>
+  );
 };
 
 export default eventPage;

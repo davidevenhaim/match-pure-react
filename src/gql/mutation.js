@@ -49,7 +49,7 @@ const NEW_EVENT = gql`
   }
 `;
 
-const EDIT_EVENT_CAPTAIN = gql`
+const EDIT_EVENT = gql`
   mutation editEvent(
     $id: ID!
     $eventDate: Date
@@ -103,7 +103,7 @@ export {
   SIGN_UP,
   SIGN_IN,
   NEW_EVENT,
-  EDIT_EVENT_CAPTAIN,
+  EDIT_EVENT,
   TOGGLE_JOIN_EVENT,
   GET_CONNECTED,
 };

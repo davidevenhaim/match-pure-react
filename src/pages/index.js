@@ -1,14 +1,11 @@
-// import React and our routing dependencies
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { IS_LOGGED_IN } from '../gql/query';
 
-// import our shared layout component
 import Layout from '../components/UI/Layout';
 import Spinner from '../Layout/Spinner/Spinner';
 
-// import our routes
 import OnboardingPage from './signUp/onboardingPage';
 import SignUp from './signup';
 import SignIn from './signin';
@@ -19,12 +16,13 @@ import EventsNearby from './eventsNearby';
 import EventPage from './eventPage';
 import NewEvent from './newEvent';
 import MyEvents from './userProfile/myEvents';
-import EditEvent from './edit/editEvent/editEvent';
+import EditEvent from './edit/editEvent';
+import EditAthlete from './edit/editAthlete';
 import MyConnections from './userProfile/myConnections';
 
 const Pages = () => {
+
   return (
-    // define our routes
     <Router>
       <Layout>
         <Route exact path="/signup" component={OnboardingPage} />
@@ -35,9 +33,11 @@ const Pages = () => {
         <Route path="/athlete/:id" component={AthletePage} exact />
         <Route path="/events" component={EventsNearby} />
         <Route path="/event/:id" component={EventPage} exact />
+        <Route path="/myprofile/:id" component={SearchNearBy} exact />
+        <PrivateRoute path="/event/:id/edit" component={EditEvent} />
+        <PrivateRoute path="/athlete/:id/edit" component={EditAthlete} />
         <PrivateRoute path="/newevent" component={NewEvent} />
         <PrivateRoute path="/myevents" component={MyEvents} />
-        <PrivateRoute path="/editevent/:id" component={EditEvent} />
         <PrivateRoute path="/myconnections" component={MyConnections} />
       </Layout>
     </Router>
@@ -46,11 +46,10 @@ const Pages = () => {
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const { loading, error, data } = useQuery(IS_LOGGED_IN);
-
-  if (loading) return <Spinner />;
+   if(loading) return <Spinner />;
 
   if (error) return <p>Error!</p>;
-  
+
   return (
     <Route
       {...rest}

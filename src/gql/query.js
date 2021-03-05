@@ -6,6 +6,13 @@ const IS_LOGGED_IN = gql`
   }
 `;
 
+const IS_ME = gql`
+  {
+    me @client
+  }
+`;
+
+
 const GET_ME = gql`
   query Me {
     Me {
@@ -182,6 +189,7 @@ const GET_EVENT_BY_SPORT = gql`
 
 export {
   IS_LOGGED_IN,
+  IS_ME,
   GET_ME,
   GET_MY_EVENTS,
   GET_MY_CONNECTIONS,

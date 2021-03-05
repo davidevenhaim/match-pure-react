@@ -1,18 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-// styles import
+import AthleteConnection from '../AthleteActions/AthleteConnection';
+
 import AthleteIcons from '../../../Layout/icons/athleteIcons';
-import SportImage from '../../UI/SportImage';
+import SportImages from '../../UI/SportImages';
 
-const profileHeader = ({ isOwner, avatar, sports, username }) => {
+const athleteHeader = props => {
+  const curUrl = props.match.url;
+  const athleteId = props.match.params.id;
+  const { isOwner, avatar, sports, username, isConnected } = props;
+
   let addSportsButton = null;
   let navigationLinks = null;
 
-  // if current user is watching is own profile.
   if (isOwner) {
     addSportsButton = (
-      <Link to="/">
+      <Link to={`${curUrl}/edit`}>
         <img
           src={AthleteIcons.addSportsButton}
           alt="addsportbutton"
@@ -20,7 +24,6 @@ const profileHeader = ({ isOwner, avatar, sports, username }) => {
         />
       </Link>
     );
-
     navigationLinks = (
       <p>
         <Link to="/">
@@ -46,12 +49,13 @@ const profileHeader = ({ isOwner, avatar, sports, username }) => {
     // current user is visiting others profile.
     navigationLinks = (
       <p>
-        <Link to="/">
-          <img src={AthleteIcons.connect} alt="connect" />
-        </Link>
-        <Link to="/">
-          <img src={AthleteIcons.sendMessage} alt="sendmessage" />
-        </Link>
+        {isConnected ? (
+          <Link to="/">
+            <img src={AthleteIcons.sendMessage} alt="sendmessage" />
+          </Link>
+        ) : (
+          <AthleteConnection id={athleteId} />
+        )}
       </p>
     );
   }
@@ -61,13 +65,12 @@ const profileHeader = ({ isOwner, avatar, sports, username }) => {
       <img src={avatar} alt="userAvatar" />
       <p>{username}</p>
       <p>
-        {/* adding add sport button before all sports. */}
         {addSportsButton}
-        <SportImage sports={sports} height="30px" />
+        <SportImages sports={sports} height="30px" />
       </p>
       {navigationLinks}
     </React.Fragment>
   );
 };
 
-export default profileHeader;
+export default withRouter(athleteHeader);

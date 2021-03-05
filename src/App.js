@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { ApolloClient, 
-         ApolloProvider,
-         InMemoryCache,
-         createHttpLink,
-       } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink
+} from '@apollo/client';
 import { setContext } from 'apollo-link-context';
 
 // import of global styling
@@ -18,14 +19,13 @@ const uri = process.env.API_URI;
 const httpLink = createHttpLink({ uri });
 const cache = new InMemoryCache();
 
-
-const authLink = setContext(( _, { headers }) => {
+const authLink = setContext((_, { headers }) => {
   return {
     headers: {
-      ...headers, 
+      ...headers,
       authorization: localStorage.getItem('token') || ''
     }
-  }
+  };
 });
 
 const client = new ApolloClient({
@@ -43,16 +43,15 @@ const data = {
 cache.writeData({ data });
 
 // write the data after cache is reset
-client.onResetStore(() =>
-  cache.writeData({ data })
-)
-
+client.onResetStore(() => {
+  cache.writeData({ data });
+});
 
 const App = () => {
   return (
     <ApolloProvider client={client}>
       <GlobalStyle />
-      <Pages />
+      <Pages isLoggedIn={data.isLoggedIn}/>
     </ApolloProvider>
   );
 };

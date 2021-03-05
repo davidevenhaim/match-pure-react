@@ -38,7 +38,7 @@ const LogoText = styled.h1`
 
 const Header = props => {
   const { data, client } = useQuery(IS_LOGGED_IN, {
-    partialRefetch: [{ query: GET_ATHLETES, GET_EVENTS }]
+    // partialRefetch: [{ query: GET_ATHLETES, GET_EVENTS }]
   });
 
   const logOutHandler = () => {

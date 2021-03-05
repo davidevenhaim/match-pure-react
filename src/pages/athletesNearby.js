@@ -4,7 +4,6 @@ import { GET_ATHLETES } from '../gql/query';
 
 import AthleteFeed from '../components/Athlete/AthleteFeed/AthleteFeed';
 
-// layout imports
 import Spinner from '../Layout/Spinner/Spinner';
 
 const athletesPage = () => {

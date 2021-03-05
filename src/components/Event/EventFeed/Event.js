@@ -1,15 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useQuery } from '@apollo/client';
-// import the format utility to help working with dates.
 import { format } from 'date-fns';
 
-import EventCaptainEdit from '../EventCaptainEdit';
-import { IS_LOGGED_IN } from '../../../gql/query';
-
-// styles import
-import SportImage from '../../UI/SportImage';
-import Spinner from '../../../Layout/Spinner/Spinner';
+import SportImage from '../../UI/SportImages';
 
 const StyledEvent = styled.article`
   max-width: 800px;
@@ -27,17 +21,13 @@ const MetaInfo = styled.div`
   padding-right: 1em;
 `;
 
-const UserActions = styled.div`
-  margin-left: auto;
-`;
+// const AthleteActions = styled.div`
+//   margin-left: auto;
+// `;
 
-const Event = ({ event })=> {
-  const { loading, error, data } = useQuery(IS_LOGGED_IN);
-
-  if (loading) return <Spinner />;
-
-  if (error) return <p>Error</p>;
-
+const Event = ({ event, isLoggedIn, curAthlete, path }) => {
+  // TO DO:
+  // don't show events that curAthlete is already participating.
   return (
     <StyledEvent>
       <MetaData>
@@ -51,13 +41,6 @@ const Event = ({ event })=> {
           {format(event.eventDate, 'MMM Do')}
           <br />
           📓{event.curPlayersAmount}/{event.maxPlayersAmount}
-          <UserActions>
-            {data.isLoggedIn ? (
-              <EventCaptainEdit event={event} />
-            ) : (
-              <p>Sign in to join!</p>
-            )}
-          </UserActions>
         </MetaInfo>
       </MetaData>
       {/* <ReactMarkdown source={'Content'} /> */}

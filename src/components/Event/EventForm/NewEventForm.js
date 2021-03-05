@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import Button from '../UI/Buttons/Button';
-import SportOptions from '../../Layout/icons/SportImages';
-import formImages from '../../Layout/icons/UserForm/newEventImages';
+import Button from '../../UI/Buttons/Button';
+import SportOptions from '../../../Layout/icons/SportImages';
+import formImages from '../../../Layout/icons/UserForm/newEventImages';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -22,13 +22,16 @@ const Form = styled.form`
   }
 `;
 
-const TextArea = styled.textarea`
-  width: 100%;
-  height: 90%;
-`;
+const NewEventForm = ({eventContent, action})=> {
+  const today = new Date();
+  let todayDate = '';
+  if(today.getDay() < 10) {
+    todayDate = `${today.getFullYear()}-0${today.getDay()}-${today.getDate()}`;
+  } else {
+    todayDate = `${today.getFullYear()}-${today.getDay()}-${today.getDate()}`;
+  }
 
-const NewEventForm = props => {
-  const [values, setValues] = useState();
+  const [values, setValues] = useState({ content: eventContent || ''});
 
   const onChange = e => {
     setValues({
@@ -46,20 +49,19 @@ const NewEventForm = props => {
       </option>
     );
   }
-
   return (
     <Wrapper>
       <Form
         onSubmit={e => {
           e.preventDefault();
           console.log(values)
-          props.action({
+          action({
             variables: { ...values }
           });
         }}
       >
         <p>Event img</p>
-        {props.content ? null : (
+        {eventContent ? null : (
           <p>
             <label htmlFor="sport">Event Sport:</label>
             <select name="sport" id="sport" onChange={onChange}>
@@ -78,20 +80,21 @@ const NewEventForm = props => {
           type="date"
           id="eventDate"
           name="eventDate"
-          placeholder={"2021-02-16"}
+          value={eventContent ? eventContent.eventDate : values.eventDate}
           min="2021-02-16"
           max="2021-12-31"
           onChange={onChange}
         ></input>
         <label htmlFor="maxPlayersAmount">
-          participants (between 2 and 30):
+          Participants (between 2 and 30):
         </label>
         <input
           type="number"
           id="maxPlayersAmount"
           name="maxPlayersAmount"
           min="2"
-          placeholder={props.content ? props.content.maxPlayersAmount : 2}
+          placeholder="10"
+          value={eventContent ? eventContent.maxPlayersAmount : values.maxPlayersAmount}
           max="30"
           onChange={onChange}
         ></input>

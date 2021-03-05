@@ -1,11 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useApolloClient, useQuery } from '@apollo/client';
+
+import { GET_ME } from '../../gql/query';
 
 // styles import
 import { buttonPlus, searchIcon } from '../../Layout/icons/navigationBar';
 // import only PROFILE ICON!
-import AthletesIcons from '../../Layout/icons/athleteIcons'
+import AthletesIcons from '../../Layout/icons/athleteIcons';
+import Spinner from '../../Layout/Spinner/Spinner';
 
 const Nav = styled.nav`
   padding: 1em;
@@ -49,11 +53,14 @@ const NavList = styled.ul`
 `;
 
 const Navigation = () => {
+  let athleteId = null;
+  const client = useApolloClient()
+  
   return (
     <Nav>
       <NavList>
         <li>
-          <Link to="/myprofile">
+          <Link to={`/athlete/${athleteId}`}>
             <span aria-hidden="true" role="img">
             <img src={AthletesIcons.profile} alt="plus" height="30px" />
             </span>

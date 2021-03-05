@@ -4,14 +4,13 @@ import { GET_EVENTS } from '../gql/query';
 
 import EventFeed from '../components/Event/EventFeed/EventFeed';
 
-// import styles
 import Spinner from '../Layout/Spinner/Spinner';
 
 const Events = () => {
   useEffect(() => {
-    // update the document title
     document.title = 'My Notes — Notedly';
   });
+  
   
   const { data, loading, error, fetchmore } = useQuery(GET_EVENTS);
 

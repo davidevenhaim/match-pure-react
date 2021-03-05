@@ -3,9 +3,8 @@ import { useMutation, useApolloClient } from '@apollo/client';
 
 import { GET_ATHLETES } from '../gql/query';
 import { SIGN_UP } from '../gql/mutation';
-import UserForm from '../components/UserForm';
+import LogInForm from '../components/LogInForm';
 
-// import styles
 import Spinner from '../Layout/Spinner/Spinner';
 
 
@@ -30,7 +29,7 @@ const signUp = props => {
 
   return (
     <React.Fragment>
-      <UserForm action={signUp} formType="signup" />
+      <LogInForm action={signUp} formType="signup" />
       {loading && <Spinner /> }
       {error && <p>Error while signing up.</p>}
     </React.Fragment>
